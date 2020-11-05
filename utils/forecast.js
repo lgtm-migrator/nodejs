@@ -8,20 +8,23 @@ const forecast = (latitude, longitude, callback) => {
     longitude +
     "&units=f";
 
-  request({ url: url, json: true }, (error, response) => {
+  request({ url, json: true }, (error, { body }) => {
     if (error) {
+      callback("Unable to connect to weather service!", undefined);
+    } else if (body.error) {
+      request({ url: url, json: true }, (error, response) => {
+      if (error) {
       callback("Unable to connect to weather service!", undefined);
     } else if (response.body.error) {
       callback("Unable to connect to weather service!", undefined);
     } else {
       callback(
         undefined,
-        response.body.current.weather_descriptions.toString() +
+        body.current.weather_descriptions.toString() +
           ", It is currently " +
-          response.body.current.temperature.toString() +
+          body.current.temperature.toString() +
           " degrees out. It feels like " +
-          response.body.current.feelslike.toString() +
-          " degrees out."
+          body.current.feelslike.toString() + " degrees out."
       );
     }
   });
