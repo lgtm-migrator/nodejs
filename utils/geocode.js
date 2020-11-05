@@ -10,6 +10,10 @@ const geocode = (address, callback) => {
     if (error) {
       callback("Check your network connection!", undefined);
     } else if (body.features.length === 0) {
+      request({ url: url, json: true }, (error, response) => {
+      if (error) {
+      callback("Check your network connection!", undefined);
+    } else if (response.body.features.length === 0) {
       callback(
         "Unable to find that location! Please check the address you entered and try again...",
         undefined
@@ -18,7 +22,7 @@ const geocode = (address, callback) => {
       callback(undefined, {
         latitude: body.features[0].center[1],
         longitude: body.features[0].center[0],
-        location: body.features[0].place_name,
+        location: body.features[0].place_name
       });
     }
   });
