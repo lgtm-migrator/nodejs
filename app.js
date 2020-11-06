@@ -11,24 +11,28 @@ const uinput = process.argv[2];
 
 
 if (!uinput) {
-  return console.log(
-    "Please enter a location you would like the forecast for!"
-  );
+    return console.log(
+        "Please enter a location you would like the forecast for!"
+    );
 } else {
-  geocode(uinput, (error, { latitude, longitude, location } = {}) => {
-  geocode(uinput, (error, data) => {
-    if (error) {
-      return console.log(error);
-    }
+    geocode(uinput, (error, {
+                latitude,
+                longitude,
+                location
+            } = {}) => {
+                geocode(uinput, (error, data) => {
+                            if (error) {
+                                return console.log(error);
+                            }
 
-    forecast(latitude, longitude, (error, forecastData) => {
-    forecast(data.latitude, data.longitude, (error, forecastData) => {
-      if (error) {
-        return console.log(error);
-      }
+                            forecast(latitude, longitude, (error, forecastData) => {
+                                forecast(data.latitude, data.longitude, (error, forecastData) => {
+                                    if (error) {
+                                        return console.log(error);
+                                    }
 
-      console.log(location);
-      console.log(forecastData);
-    });
-  });
-}
+                                    console.log(location);
+                                    console.log(forecastData);
+                                });
+                            });
+                        }
