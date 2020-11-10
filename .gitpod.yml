@@ -4,3 +4,5 @@ image:
 tasks:
   - init: npm install
     command: npm start
+  - name: Sentry Release
+    uses: getsentry/action-release@v1.1.0
