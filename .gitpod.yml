@@ -2,7 +2,38 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - init: npm install
-    command: npm start
+  - init: npm install && npm run build && npm install -g eslint
+    command: export CLIENT_URL="$(gp url 35729)/livereload.js?snipver=1&port=443"
+    command: npm run dev
+  - command: bash -m http.server 8080
+    name: staticServer
+  - openMode: split-bottom
+    command: echo SplitTerminal
+  - openIn: bottom
+    command: echo BottomPanelTerminal
   - name: Sentry Release
     uses: getsentry/action-release@v1.1.0
+
+vscode:
+  extensions:
+    - timonwong.shellcheck@0.9.0:hsU/Rd39aqPYowTqL+DbXg==
+    - mads-hartmann.bash-ide-vscode@1.4.0:/qx+rdXE/fGTGWhelNf3aQ==
+
+github:
+  prebuilds:
+    #enable for the master/default branch (defaults to true)
+    master: true
+    #enable for all branches in this repo (defaults to false)
+    branches: false
+    #enable for pull requests (defaults to true)
+    pullRequests: true
+    #add a check to pull requests (defaults to true)
+    addCheck: true
+    #add a "Review in Gitpod" button as a comment to pull requests (defaults to false)
+    addComment: false
+
+ports: 
+  - port: 8080
+    onOpen: open-preview
+  - port: 9000-9999
+    onOpen: ignore
