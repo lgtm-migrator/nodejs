@@ -36,7 +36,7 @@ jobs:
         # The chunk size used to split up large files during upload, in bytes
         upload-chunk-size: # optional   
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
     - name: install dependencies, build and test 
